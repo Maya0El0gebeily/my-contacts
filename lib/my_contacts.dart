@@ -1,20 +1,19 @@
-import 'dart:html';
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:my_contacts/widgets/contacts_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class MyContacts extends StatelessWidget {
+  final Uri phoneNumber = Uri.parse('tel:+201007295450');
   MyContacts({super.key});
-  Map<String, String> socialMedia = {
-    'facebook.png': 'https://www.facebook.com/',
-    'instagram.png': 'https://www.instagram.com/',
-    'snapchat.png': 'https://web.snapchat.com/',
-    'whatsapp.png': 'https://wa.me/+201007295450',
-    'viber.png': 'https://viber.com.ru/viber-web',
-    'twitter.png': 'https://twitter.com/i/flow/single_sign_on',
+  final Map myContacts = {
+    'facebook.png': Uri.parse('https://www.facebook.com/'),
+    'instagram.png': Uri.parse('https://www.instagram.com/'),
+    'snapchat.png': Uri.parse('https://web.snapchat.com/'),
+    'whatsapp.png': Uri.parse('https://wa.me/+201007295450'),
+    'viber.png': Uri.parse('https://viber.com.ru/viber-web'),
+    'twitter.png': Uri.parse('https://twitter.com/i/flow/single_sign_on'),
   };
 
   @override

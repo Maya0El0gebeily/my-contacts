@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../start.dart';
+
 class ContactChanelCard extends StatelessWidget {
   String platform;
   Uri url;
@@ -22,7 +24,10 @@ class ContactChanelCard extends StatelessWidget {
           elevation: 4,
           child: InkWell(
             onTap: () {
-              Uri url;
+              Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => StartSocialMedia(url: url,)),
+  );
             },
             child: Image(
               image: AssetImage(
