@@ -15,11 +15,11 @@ class StartSocialMedia extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 3, 7, 30),
       ),
       body: Center(
-          child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll(Colors.orange),
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Colors.orange),
         ),
-        onPressed: () {
+          onPressed: () {
           launchUrl(url, mode: LaunchMode.externalApplication);
         },
         child: Text('Start Social Media'),

@@ -24,10 +24,19 @@ class ContactChanelCard extends StatelessWidget {
           elevation: 4,
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                 context,
-                 MaterialPageRoute(builder: (context) => StartSocialMedia(url: url,)),
-  );
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.orange)),
+                      onPressed: () {
+                        launchUrl(url, mode: LaunchMode.externalApplication);
+                      },
+                      child: Text('Start Social Media'),
+                    );
+                  });
             },
             child: Image(
               image: AssetImage(
