@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'my_contacts.dart';
 
@@ -8,22 +9,22 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home:MyContacts(),
-    );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+        create: (context) => ActionIconProvider(),),
+        ChangeNotifierProvider(
+        create: (context) => SocialIconProvider(),)
+      ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home:MyContacts(),
+        ),
+      );
   }
 }
 
-// class MyContacts extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(),
-//     );
-//   }
-// }

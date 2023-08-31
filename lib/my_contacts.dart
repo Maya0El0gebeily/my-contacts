@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_contacts/widgets/SocialMediaIcon.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:tuple/tuple.dart';
 
-class MyContacts extends StatefulWidget {
+
+class MyContacts extends StatelessWidget {
   MyContacts({super.key});
 
   @override
@@ -9,8 +13,8 @@ class MyContacts extends StatefulWidget {
 }
 
 class _myContactsState extends State<MyContacts> {
-  String? myPlatform;
-  Uri? myUrl;
+  
+  
   final Uri phoneNumber = Uri.parse('tel:+201007295450');
   final Map myContacts = {
     'facebook.png': Uri.parse('https://www.facebook.com/'),
@@ -41,34 +45,42 @@ class _myContactsState extends State<MyContacts> {
             },
           ),
           actions: [
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  onPressed: () {
-                    myUrl == null
-                        ? launchUrl(phoneNumber)
-                        : launchUrl(myUrl!,
-                            mode: LaunchMode.externalApplication);
-                  },
-                  icon: myPlatform == null
-                      ? Icon(
-                          Icons.phone,
-                          size: 25,
-                          color: Colors.white,
-                        )
-                      : Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(50),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          elevation: 4,
-                          child: Image(
-                            image: AssetImage('assets/${myPlatform}.png'),
-                            height: 80,
-                            width: 80,
-                            fit: BoxFit.cover,
+            Selector<ActionIconProvider , Tuple2<String?,Uri?>>(
+              selector: (p0, p1) => Tuple2(p1.getMyPlatform(), p1.getMyUrl()),
+              builder: (context, Object, child) {
+                print('Platform is in build');
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () {
+                      Object.item2== null
+                          ? launchUrl(phoneNumber)
+                          : launchUrl(object.item2!,
+                              mode: LaunchMode.externalApplication);
+                    },
+                    icon: Object.item1 == null
+                        ? Icon(
+                            Icons.phone,
+                            size: 25,
+                            color: Colors.white,
+                          )
+                        : Material(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(50),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            elevation: 4,
+                            child: Image(
+                              image: AssetImage('assets/${object.item1}.png',),
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                )),
+                          iconSize: 25,
+                  ),
+                  );
+              },
+            ),
           ],
         ),
         backgroundColor: Color.fromARGB(255, 3, 7, 30),
@@ -84,18 +96,35 @@ class _myContactsState extends State<MyContacts> {
                     height: 20,
                   ),
                   CircleAvatar(
-                    child: Image(
-                      image: AssetImage('assets/MayaElGebeily.jpeg'),
-                    ),
+                    backgroundImage: AssetImage('assets/MayaElGebeily.jpeg'),
                     radius: 100,
-                  ),
-                  Text(
-                    'Maya',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
                     ),
+                    
+                  ),
+
+
+                  Consumer<MyProvider>(
+                    builder: (context, value, child) {
+                      print('Button is in build');
+                      return ElevatedButton(onPressed: () {
+                      value.changeName();
+                    value.notifyListeners();}, 
+                    child: Text('Change Name'),);
+                    },),
+
+                  Selector<MyProvider , String>(
+                    selector: (p0, p1) => p1.name,                    builder: (context, value, child) {
+                      print('Name is in build');
+                      return Text(
+                      value.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                    },
+                    
                   ),
                   SizedBox(
                     height: 20,
@@ -134,46 +163,29 @@ class _myContactsState extends State<MyContacts> {
                       crossAxisSpacing: 10,
                     ),
                     itemBuilder: (BuildContext, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(50),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          elevation: 4,
-                          child: InkWell(
-                            onTap: () {
-                              print('current value = $myPlatform');
-
-                              myPlatform = myContacts.keys.toList()[index];
-                              myUrl = myContacts.values.toList()[index];
-                              setState(() {});
-                              print('current value = $myPlatform');
-                              launchUrl(myContacts.values.toList()[index],
-                                  mode: LaunchMode.externalApplication);
-                            },
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/${myContacts.keys.toList()[index]}.png'),
-                              height: 80,
-                              width: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      );
+                      return ContactChanelCard(
+                          platform: myContacts.keys.toList()[index],
+                          url: myContacts.values.toList()[index],
+                          changeState : changeMyState()
+                          );
+                          
+                          
                     },
                     shrinkWrap: true,
                     primary: true,
                     physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                   ),
                 ],
               ),
             ),
+              
           ),
         ),
       ),
     );
   }
+}
+
+class MyProvider {
 }

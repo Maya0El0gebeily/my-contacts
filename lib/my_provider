@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+
+
+class ActionIconProvider extends ChangeNotifier {
+    String? _myPlatform;
+    Uri? _myUrl;
+    double raduis;
+    String name = 'Maya';
+
+    void changeName(){
+      if(name == 'Maya') name = 'Gammal Tech';
+        
+
+    }
+    void setMyPlatform(value){
+      _myPlatform == value;
+      notifyListeners();
+    }
+    void setMyUrl(value){
+      _myUrl = value;
+      notifyListeners();
+    }
+    String getMyPlatform() => _myPlatform ?? 'whatsapp';
+
+    Uri getMyUrl() => _myUrl ??;
+
+    @override
+    void notifyListeners(){
+    super.notifyListeners();
+    }
+}
+class SocialIconProvider extends ChangeNotifier {
+  double? raduis;
+  notifyListeners()
+
+}
