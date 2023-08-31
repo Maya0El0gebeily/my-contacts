@@ -13,19 +13,25 @@ class SocialMediaIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: InkWell(
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage('assets/$SocialMedia'),
-          radius: 40,
-        ),
-        onTap: () {
-          launchUrl(Uri.parse(SocialMedia),
-              mode: LaunchMode.externalApplication);
-        },
-      ),
+    return Column(
+      children: [
+        Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(50),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            elevation: 4,
+            child: InkWell(
+              onTap: () async {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              },
+              child: Image(
+                image: AssetImage('assets/$SocialMedia'),
+                height: 80,
+                width: 80,
+                fit: BoxFit.cover,
+              ),
+            )),
+      ],
     );
   }
 }
